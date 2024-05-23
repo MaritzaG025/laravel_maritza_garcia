@@ -1,0 +1,180 @@
+    /* Estilo para el cuerpo con la imagen de fondo */
+    .welcom_sis_G {
+        background-image: url('/images/home_sis_g_2.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: right;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 8px;
+        border: 1px solid #ddd;
+        width: auto;
+        white-space: nowrap;
+    }
+
+    /* estilos para el footer */
+
+    .footer_SIS_G {
+        background-color: #F2EEEE;
+        padding: 20px 0;
+        border-top: 1px solid #eee;
+    }
+
+    .footer_SIS_G .container {
+        margin: 0 auto;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        width: -webkit-fill-available;
+    }
+
+    .footer_SIS_G .col {
+        width: 100%;
+    }
+
+    .footer_SIS_G h6 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+        width: max-content;
+    }
+
+    .footer_SIS_G ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer_SIS_G li {
+        margin-bottom: 10px;
+    }
+
+    .footer_SIS_G a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .footer_SIS_G a:hover {
+        color: #009e46;
+    }
+
+    .footer_SIS_G .material-icons {
+        font-size: 24px;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    .footer_SIS_G p {
+        margin: 5px 0;
+    }
+
+    .footer_SIS_G .text-center {
+        text-align: center;
+    }
+
+    .footer_SIS_G .footer_SIS_G-copyright {
+        color: #999;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    /* Estilos para el navbar */
+    .navbar {
+        overflow: hidden;
+        background-color: transparent;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Estilos para el texto del logo */
+    .brand {
+        font-size: 70px;
+        font-weight: 500px;
+        color: #00BD56;
+        flex-grow: 1;
+        margin: 1% 5%;
+    }
+
+    /* Estilo para el menu item despues de inicio */
+    .menu-items {
+        display: flex;
+        font-size: 20px;
+        font-family: sans-serif;
+        font-weight: 700;
+        padding: 10px;
+    }
+
+    /* Estilos para los enlaces */
+    .menu-items a,
+    .navbar button {
+        color: #393E46;
+        text-decoration: none;
+        padding: 10px 20px;
+        display: flex;
+    }
+
+    .menu-items a:hover,
+    .navbar button:hover,
+    .footer_SIS_G a:hover {
+        color: #00BD56;
+        background-color: transparent;
+        border-radius: 4px;
+    }
+
+    /* Estilos del boton de login */
+    .button_login_sis_g {
+        color: #00BD56 !important;
+        border: 1px solid #00BD56 !important;
+        background-color: transparent;
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        /* Sombra */
+    }
+
+    .button_login_sis_g:hover {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        /* Sombra */
+    }
+
+    /* Estilos para el formulario de contacto */
+    .container {
+        margin: auto;
+        padding: 20px;
+    }
+
+    .input-field {
+        margin-bottom: 20px;
+    }
+
+    /* Estilos para los botones */
+    .btn_verde {
+        background-color: #00BD56;
+        border-radius: 5px;
+        border: 1px solid #00BD56 !important;
+        color: #fff;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .btn_verde:hover {
+        background-color: #009e46;
+        color: #fff;
+        font-weight: 500;
+    }
