@@ -12,6 +12,7 @@ class EmpresaController extends Controller
      */
     public function index()
     {
+        // Traer todas las empresas
         $empresas = Empresa::all();
         return view('empresas.index', compact('empresas'));
     }
@@ -21,6 +22,7 @@ class EmpresaController extends Controller
      */
     public function create()
     {
+        // retorne la vista de crear
         return view('empresas.create');
     }
 
@@ -56,32 +58,94 @@ class EmpresaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($clave_empresa)
     {
-        //
+        // buscar la empresa primero por la clave
+        $company = Empresa::where('clave_empresa', $clave_empresa)->first();
+
+        // verificar si existe y devolver el mensaje
+        if (!$company) {
+            return view('empresas.show')->with([
+                'company' => new Empresa(),
+                'showErrorModal' => true
+            ]);
+        }
+
+        return view('empresas.show')->with([
+            'company' => $company,
+            'showErrorModal' => false
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($clave_empresa)
     {
-        //
+        $company = Empresa::where('clave_empresa', $clave_empresa)->first();
+
+        if (!$company) {
+            return view('empresas.show')->with([
+                'company' => new Empresa(),
+                'showErrorModal' => true
+            ]);
+        }
+
+        return view('empresas.edit')->with([
+            'company' => $company,
+            'showErrorModal' => false
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $clave_empresa)
     {
-        //
+        // Obtener la empresa por su clave
+        $empresa = Empresa::where('clave_empresa', $clave_empresa)->first();
+
+        // Verificar si la empresa existe
+        if (!$empresa) {
+            // Si la empresa no existe, mostrar un mensaje de error
+            return response()->json(['errorMessage' => 'Empresa no encontrada.']);
+        }
+
+        // Actualizar los campos de la empresa con los datos del formulario
+        $empresa->nombre_empresa = $request->nombre_empresa;
+        $empresa->tipo_identificacion = $request->tipo_identificacion;
+        $empresa->identificacion = $request->identificacion;
+        $empresa->razon_social = $request->razon_social;
+        $empresa->direccion = $request->direccion;
+        $empresa->email = $request->email;
+
+        $empresa->telefono = $request->telefono;
+        $empresa->pagina_web = $request->pagina_web;
+
+        // Intentar guardar los cambios en la base de datos y devolver el msj
+        if ($empresa->save()) {
+            return response()->json(['successMessage' => 'La empresa se actualizó correctamente.']);
+        } else {
+            return response()->json(['errorMessage' => 'Hubo un error al actualizar la empresa.']);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($clave_empresa)
     {
-        //
+        $empresa = Empresa::where('clave_empresa', $clave_empresa)->first();
+
+        if (!$empresa) {
+            return response()->json(['errorMessage' => 'Empresa no encontrada'], 404);
+        }
+
+        if ($empresa->delete()) {
+            return response()->json(['successMessage' => 'Empresa eliminada correctamente']);
+        } else {
+            return response()->json(['errorMessage' => 'No se pudo eliminar la empresa'], 500);
+        }
     }
 }

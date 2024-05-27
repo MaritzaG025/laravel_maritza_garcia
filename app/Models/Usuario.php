@@ -10,4 +10,6 @@ class Usuario extends Model
     use HasFactory;
     // Asegurar de usar la tabla de usuarios de la BD
     protected $table = 'usuarios';
+      // Especificar la columna de la clave primaria
+      protected $primaryKey = 'id_usuario';
 }

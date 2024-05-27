@@ -20,7 +20,6 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn_verde">Ver Usuarios</button>
-                    <!-- Botón para crear un nuevo usuario -->
                     <button type="button" id="crearUsuarioBtn" class="btn btn_verde">Crear Nuevo Usuario</button>
                 </form>
             </div>
@@ -34,13 +33,12 @@
                             <table class="table table-striped">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
                                         <th>Usuario</th>
-                                        <th>Contraseña</th>
                                         <th>Tipo de Usuario</th>
                                         <th>Activo</th>
+                                        <th>Fecha de Creación</th>
+                                        <th>Fecha de Actualización</th>
+                                        <th>Modificar</th>
                                     </tr>
                                 </thead>
                                 <tbody id="usuariosBody"></tbody>
@@ -109,12 +107,17 @@
                                 if (usuario.activo == 0) {
                                     userActive = 'No';
                                 }
-                                $('#usuariosBody').append('<tr><td>' + usuario
-                                    .id_usuario + '</td><td>' + usuario.nombre +
-                                    '</td><td>' + usuario.email + '</td><td>' +
+                                let urlShow = "/usuarios/" + empresaId +
+                                    "/usuario_id=" + usuario.id_usuario;
+                                $('#usuariosBody').append('<tr><td>' +
                                     usuario.usuario + '</td><td>' + usuario
-                                    .contrasen_a + '</td><td>' + usuario
                                     .tipo_usuario + '</td><td>' + userActive +
+                                    '</td><td>' + usuario
+                                    .created_at + '</td><td>' + usuario
+                                    .updated_at +
+                                    '</td><td><a href="' + urlShow +
+                                    '" class="btn btn-outline-success me-3 w-100">Modificar</a></td>' +
+                                    userActive +
                                     '</td></tr>');
                             });
                             $('#usuariosTable').show();

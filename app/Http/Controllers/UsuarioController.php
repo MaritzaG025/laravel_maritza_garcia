@@ -71,33 +71,127 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($empresaId, $usuarioId)
     {
-        //
+        $company = Empresa::where('id_empresas', $empresaId)->first();
+        $usuario = Usuario::where('id_usuario', $usuarioId)->first();
+
+        if (!$company && !$usuario) {
+            return view('usuarios.show')->with([
+                'showErrorModal' => true,
+                'errorMessage' => 'No se encontró la empresa ni el usuario.',
+                'company' => new Empresa(),
+                'usuario' => new Usuario()
+            ]);
+        }
+
+        if (!$company) {
+            return view('usuarios.show')->with([
+                'showErrorModal' => true,
+                'errorMessage' => 'No se encontró la empresa.',
+                'company' => new Empresa(),
+                'usuario' => new Usuario()
+            ]);
+        }
+
+        if (!$usuario || $usuario->id_empresa != $empresaId) {
+            return view('usuarios.show')->with([
+                'company' => $company,
+                'showErrorModal' => true,
+                'errorMessage' => 'El usuario no pertenece a esta empresa.',
+                'usuario' => new Usuario()
+            ]);
+        }
+
+        return view('usuarios.show')->with([
+            'company' => $company,
+            'usuario' => $usuario,
+            'showErrorModal' => false
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($empresa_id, $usuario_id)
     {
-        //
+        $empresa = Empresa::find($empresa_id);
+        $usuario = Usuario::find($usuario_id);
+
+        // Verificar si tanto la empresa como el usuario existen
+        if (!$empresa || !$usuario) {
+            // Si alguno de ellos no existe, redireccionar o mostrar un mensaje de error
+            return redirect()->route('usuarios.index')->with('error_message', 'La empresa o el usuario no existen.');
+        }
+
+        // Si ambos existen, cargar la vista de edición con los datos de la empresa y el usuario
+        return view('usuarios.edit', compact('empresa', 'usuario'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id_usuario)
     {
-        //
+        $usuario = Usuario::findOrFail($id_usuario);
+
+        // Verificar si el usuario existe
+        if (!$usuario) {
+            // Si el usuario no existe, mostrar un mensaje de error
+            return response()->json(['errorMessage' => 'Usuario no encontrado.']);
+        }
+
+        // Verificación de que no exista otro usuario con el mismo email y usuario
+        $existingEmail = Usuario::where('email', $request->email)->where('id_usuario', '!=', $id_usuario)->first();
+        $existingUser = Usuario::where('usuario', $request->usuario)->where('id_usuario', '!=', $id_usuario)->first();
+        if ($existingEmail) {
+            if ($existingEmail && $existingUser) {
+                return response()->json(['errorMessage' => 'Ya existe un usuario con este correo electrónico y este nombre de usuario.']);
+            }
+            return response()->json(['errorMessage' => 'Ya existe un usuario con este correo electrónico.']);
+        } else if ($existingUser) {
+            return response()->json(['errorMessage' => 'Ya existe un usuario con este nombre de usuario.']);
+        }
+
+        // Actualizar los campos del usuario con los datos del formulario
+        $usuario->nombre = $request->nombre;
+        $usuario->email = $request->email;
+        $usuario->usuario = $request->usuario;
+        $usuario->tipo_usuario = $request->tipo_usuario;
+
+        if ($request->contrasena) {
+            $usuario->contrasen_a = $request->contrasena;
+        }
+        $usuario->activo = $request->activo;
+
+        // Intentar guardar los cambios en la base de datos y devolver msj
+        if ($usuario->save()) {
+            return response()->json(['successMessage' => 'El usuario se actualizó correctamente.']);
+        } else {
+            return response()->json(['errorMessage' => 'Hubo un error al actualizar el usuario.']);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+// UsuarioController.php
+
+    public function destroy($id_usuario)
     {
-        //
+        $usuario = Usuario::find($id_usuario);
+
+        if (!$usuario) {
+            return response()->json(['errorMessage' => 'Usuario no encontrado'], 404);
+        }
+
+        if ($usuario->delete()) {
+            return response()->json(['successMessage' => 'Usuario eliminado correctamente']);
+        } else {
+            return response()->json(['errorMessage' => 'No se pudo eliminar el usuario'], 500);
+        }
     }
 
     // para obtener los usuarios por empresa

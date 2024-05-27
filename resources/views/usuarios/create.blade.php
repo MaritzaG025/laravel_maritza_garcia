@@ -55,7 +55,8 @@
                     </div>
                     <div class="d-flex justify-content-center mx-5 mt-3">
                         <button class="btn btn-outline-success me-3 w-100" id="submitBtn" type="submit">Crear</button>
-                        <a href="{{ route('usuarios.index') }}" class="w-100 btn btn-outline-danger d-flex flex-column justify-content-center">Cancelar</a>
+                        <a href="{{ route('usuarios.index') }}"
+                            class="w-100 btn btn-outline-danger d-flex flex-column justify-content-center">Cancelar</a>
                     </div>
                 </form>
             </div>
@@ -80,5 +81,52 @@
         </div>
     </div>
 
-    @vite('resources/js/usuarios/create.js')
+    {{-- @vite('resources/js/usuarios/create.js') --}}
+    <script>
+        $(document).ready(function() {
+            $('#formularioUsuarios').submit(function(event) {
+                // Evitar que el formulario se envíe normalmente
+                event.preventDefault();
+
+                // Obtener la URL del formulario
+                var url = $(this).attr('action');
+
+                // Obtener los datos del formulario
+                var formData = $(this).serialize();
+
+                // Enviar la solicitud AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    success: function(response) {
+                        if (response && response.successMessage) {
+                            $('#mensajeTexto').text(response.successMessage);
+                            $('#mensajeModal').modal('show');
+                            $('#modalBtn').click(function() {
+                                window.location.href = "{{ route('usuarios.index') }}";
+                            });
+                        }
+
+                        if (response && response.errorMessage) {
+                            $('#mensajeTexto').text(response.errorMessage);
+                            $('#mensajeModal').modal('show');
+                            $('#modalBtn').click(function() {
+                                $('#mensajeModal').modal('hide');
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        $('#mensajeTexto').text(xhr
+                            .responseText);
+                        $('#mensajeModal').modal('show');
+                        $('#modalBtn').click(function() {
+                            $('#mensajeModal').modal('hide');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

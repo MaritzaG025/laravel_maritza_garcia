@@ -11,35 +11,21 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Id</th>
                         <th>Clave</th>
-                        <th>Tipo de Identificación</th>
-                        <th>Identificación</th>
                         <th>Nombre</th>
-                        <th>Razón Social</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Página Web</th>
-                        <th>Fecha de Actualización</th>
                         <th>Fecha de Creación</th>
+                        <th>Fecha de Actualización</th>
+                        <th>Modificar</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($empresas as $empresa)
                         <tr>
-                            <td>{{ $empresa->id_empresas }}</td>
                             <td>{{ $empresa->clave_empresa }}</td>
-                            <td>{{ $empresa->tipo_identificacion }}</td>
-                            <td>{{ $empresa->identificacion }}</td>
-                            <td>{{ $empresa->nombre }}</td>
-                            <td>{{ $empresa->razon_social }}</td>
-                            <td>{{ $empresa->email }}</td>
-                            <td>{{ $empresa->telefono }}</td>
-                            <td>{{ $empresa->direccion }}</td>
-                            <td>{{ $empresa->pagina_web }}</td>
-                            <td>{{ $empresa->updated_at }}</td>
+                            <td>{{ $empresa->nombre_empresa }}</td>
                             <td>{{ $empresa->created_at }}</td>
+                            <td>{{ $empresa->updated_at }}</td>
+                            <td><a href="/empresas/{{$empresa->clave_empresa}}" class="btn btn-outline-success me-3 w-100">Modificar</a></td>
                         </tr>
                     @endforeach
                 </tbody>
